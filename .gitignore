@@ -64,3 +64,9 @@ buck-out/
 
 # VS Code
 .vscode
+
+#Others
+android/
+ios/
+ignite/
+

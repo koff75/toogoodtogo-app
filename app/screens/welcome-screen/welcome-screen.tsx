@@ -1,9 +1,14 @@
 import * as React from "react"
-import { View, Image, ViewStyle, TextStyle, ImageStyle, SafeAreaView } from "react-native"
+import { View, Image, ActivityIndicator, ViewStyle, TextStyle, ImageStyle, SafeAreaView } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
 import { Button, Header, Screen, Text, Wallpaper } from "../../components"
 import { color, spacing } from "../../theme"
-const bowserLogo = require("./bowser.png")
+import { RootStore, useStores } from "../../models/root-store"
+import { Market } from "../../models/root-store/market"
+import { useState, useEffect } from "react"
+import { FlatList } from "react-native-gesture-handler"
+import { Card } from "react-native-elements"
+
 
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
@@ -61,6 +66,8 @@ const CONTINUE: ViewStyle = {
   paddingVertical: spacing[4],
   paddingHorizontal: spacing[4],
   backgroundColor: "#5D2555",
+  marginVertical: spacing[2],
+
 }
 const CONTINUE_TEXT: TextStyle = {
   ...TEXT,
@@ -74,44 +81,74 @@ const FOOTER_CONTENT: ViewStyle = {
   paddingHorizontal: spacing[4],
 }
 
-export interface WelcomeScreenProps extends NavigationScreenProps<{}> {}
+export interface WelcomeScreenProps extends NavigationScreenProps<{}> {
+  rootStore: RootStore
+}
 
 export const WelcomeScreen: React.FunctionComponent<WelcomeScreenProps> = props => {
-  const nextScreen = React.useMemo(() => () => props.navigation.navigate("demo"), [
+  const nextScreen = React.useMemo(() => () => props.navigation.navigate("favList"), [
     props.navigation,
   ])
+  const ratingsScreen = React.useMemo(() => () => props.navigation.navigate("ratings"), [
+    props.navigation,
+  ])
+  const badgesScreen = React.useMemo(() => () => props.navigation.navigate("badges"), [
+    props.navigation,
+  ])
+  const rootStore = useStores()
+  useEffect(() => {
+    rootStore && rootStore.getApi()
+    rootStore.setClearStore
+  }, [])
+  const {markets, status2} = rootStore
+
 
   return (
     <View style={FULL}>
       <Wallpaper />
       <Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
-        <Header headerTx="welcomeScreen.poweredBy" style={HEADER} titleStyle={HEADER_TITLE} />
-        <Text style={TITLE_WRAPPER}>
-          <Text style={TITLE} text="Your new app, " />
-          <Text style={ALMOST} text="almost" />
-          <Text style={TITLE} text="!" />
-        </Text>
-        <Text style={TITLE} preset="header" tx="welcomeScreen.readyForLaunch" />
-        <Image source={bowserLogo} style={BOWSER} />
-        <Text style={CONTENT}>
-          This probably isn't what your app is going to look like. Unless your designer handed you
-          this screen and, in that case, congrats! You're ready to ship.
-        </Text>
-        <Text style={CONTENT}>
-          For everyone else, this is where you'll see a live preview of your fully functioning app
-          using Ignite.
-        </Text>
-      </Screen>
-      <SafeAreaView style={FOOTER}>
+        <Header headerText="Classement ToodGoodToGo" style={HEADER} titleStyle={HEADER_TITLE} />
+        <Text style={CONTENT} text={`Nombre de fav. : ${markets.length} items`} />
+       {status2 == "pending" && <ActivityIndicator size="large"/> && <Text text="PENDING"/>}
+       
+       
+       <SafeAreaView style={FOOTER}>
         <View style={FOOTER_CONTENT}>
           <Button
+            testID="button-main"
             style={CONTINUE}
             textStyle={CONTINUE_TEXT}
-            tx="welcomeScreen.continue"
+            text="MY FAV LIST"
             onPress={nextScreen}
+            disabled={status2 !== "done"}
+          />
+          <Button
+            testID="button-main"
+            style={CONTINUE}
+            textStyle={CONTINUE_TEXT}
+            text="TOP ALL FAV."
+            onPress={ratingsScreen}
+            disabled={status2 !== "done"}
+          />
+          <Button
+            testID="button-main"
+            style={CONTINUE}
+            textStyle={CONTINUE_TEXT}
+            text="TOP BADGES"
+            onPress={badgesScreen}
+            disabled={status2 !== "done"}
+          />
+          <Button
+            testID="button-main"
+            style={CONTINUE}
+            textStyle={CONTINUE_TEXT}
+            text="TOP RATES"
+            onPress={nextScreen}
+            disabled={status2 !== "done"}
           />
         </View>
       </SafeAreaView>
+      </Screen>
     </View>
   )
 }

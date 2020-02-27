@@ -2,12 +2,18 @@ import createNativeStackNavigator from "react-native-screens/createNativeStackNa
 import {
   WelcomeScreen,
   DemoScreen,
+  DetailScreen,
+  TopRatingsScreen,
+  TopPourcentScreen,
 } from "../screens"
 
 export const PrimaryNavigator = createNativeStackNavigator(
   {
     welcome: { screen: WelcomeScreen },
     demo: { screen: DemoScreen },
+    favList: { screen: DetailScreen }, // number of stars with fav = 1
+    ratings: {screen: TopRatingsScreen }, // number of stars all content
+    badges: {screen: TopPourcentScreen },
   },
   {
     headerMode: "none",

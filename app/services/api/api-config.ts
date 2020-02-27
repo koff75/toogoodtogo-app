@@ -13,12 +13,16 @@ export interface ApiConfig {
    * Milliseconds before we timeout the request.
    */
   timeout: number
+
+  // For the bearer token authorization
+  authorization: string
 }
 
 /**
  * The default configuration for the app.
  */
 export const DEFAULT_API_CONFIG: ApiConfig = {
-  url: API_URL || "https://jsonplaceholder.typicode.com",
+  url: API_URL || "https://apptoogoodtogo.com/api/item/v3/",
   timeout: 10000,
+  authorization: "Bearer [YOUR KEY HERE]"
 }
