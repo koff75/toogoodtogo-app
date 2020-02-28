@@ -2,6 +2,8 @@
 
 **React Native project using TypeScript, MobX State Tree (MST) and React Navigation.**
 
+![](https://media.giphy.com/media/JO9cuGO03vHKPFc15I/200w_d.gif)
+
 You can find all your favorites stores with more information (number of likes, etc.), the top-ranking stores, top-ranking badges, top-ranking rates.
 
 ## How to configure
@@ -33,6 +35,5 @@ Line **118**:
 Just run the command "**react-native run-ios**" if you're on iOS.
 Only tested with iOS, should perfectly work on Android.
 
-![](https://media.giphy.com/media/JO9cuGO03vHKPFc15I/giphy.gif)
 
 Enjoy ;)
